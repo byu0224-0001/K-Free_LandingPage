@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Free | Eat Safely in Korea</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://k-free.vercel.app/">
+    <meta property="og:title" content="K-Free | Eat Safely in Korea">
+    <meta property="og:description" content="Food Allergy Safety Guide for travelers in Korea. AI Chatbot & Premium Verification Service.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550966871-3ed3c6227685?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://k-free.vercel.app/">
+    <meta property="twitter:title" content="K-Free | Eat Safely in Korea">
+    <meta property="twitter:description" content="Food Allergy Safety Guide for travelers in Korea. AI Chatbot & Premium Verification Service.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550966871-3ed3c6227685?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; }
+        .lang-jp { font-family: 'Noto Sans JP', sans-serif; }
+        .lang-cn { font-family: 'Noto Sans SC', sans-serif; }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1550966871-3ed3c6227685?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-bold text-teal-600 tracking-tight cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">K-Free</span>
+                <span id="header-subtitle" class="hidden sm:block text-xs text-gray-400 border-l border-gray-300 pl-2 ml-2">Food Allergy Safety Guide</span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <!-- Language Switcher -->
+                <div class="flex bg-gray-100 rounded-lg p-1">
+                    <button onclick="changeLang('en')" class="px-3 py-1 text-xs font-bold rounded-md transition-colors" id="btn-en">EN</button>
+                    <button onclick="changeLang('jp')" class="px-3 py-1 text-xs font-bold rounded-md transition-colors" id="btn-jp">JP</button>
+                    <button onclick="changeLang('cn')" class="px-3 py-1 text-xs font-bold rounded-md transition-colors" id="btn-cn">CN</button>
+                </div>
+
+                <button onclick="window.open('https://forms.gle/YqehrgsMerPiNXoX6', '_blank')" id="header-cta" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm">
+                    Join Waitlist
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="max-w-4xl mx-auto text-white space-y-8 animate-fade-in-up px-4">
+            
+            <!-- Supported Allergens Badge -->
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-4">
+                <span class="flex items-center gap-1 text-xs sm:text-sm font-medium text-teal-300">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span id="hero-badge">Supported: Shellfish · Nuts · Milk/Egg/Wheat/Soy</span>
+                </span>
+            </div>
+
+            <h1 id="hero-title" class="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight drop-shadow-lg">
+                Dining in Korea shouldn't feel like<br>
+                <span class="text-teal-400">Russian Roulette.</span>
+            </h1>
+            
+            <p id="hero-desc" class="text-lg sm:text-xl text-gray-200 font-light max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+                Hidden shellfish broth in red sauce, nuts in side dishes...<br class="hidden sm:block">
+                K-Free is your <strong>Safety Layer</strong> with AI & Expert Verification.
+            </p>
+            
+            <div class="flex flex-col items-center gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+                    <button onclick="scrollToSection('ai-feature')" id="hero-btn-ai" class="bg-white text-teal-700 w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition shadow-lg flex items-center justify-center gap-2">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i> Try AI Chat (Free)
+                    </button>
+                    <button onclick="scrollToSection('premium-feature')" id="hero-btn-premium" class="bg-teal-600/90 backdrop-blur-sm text-white w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-600 transition shadow-lg border border-teal-500/50 flex items-center justify-center gap-2">
+                        <i data-lucide="crown" class="w-5 h-5"></i> Expert Consulting
+                    </button>
+                </div>
+                <!-- Non-guarantee Disclaimer -->
+                <p id="hero-disclaimer" class="text-xs text-gray-300 opacity-80 max-w-lg mx-auto">
+                    K-Free does not guarantee allergy-free environments — we help you make better-informed choices.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-300 pt-6 opacity-90">
+                <div class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-teal-400"></i> <span id="trust-1">Verified Info</span></div>
+                <div class="flex items-center gap-1.5"><i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400"></i> <span id="trust-2">Clear Risks</span></div>
+                <div class="flex items-center gap-1.5"><i data-lucide="heart-pulse" class="w-4 h-4 text-red-400"></i> <span id="trust-3">Emergency Plan</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reality Check -->
+    <section class="py-24 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 id="reality-title" class="text-3xl font-bold text-gray-900 mb-4">Why Usual Apps Fail in Korea?</h2>
+                <p id="reality-desc" class="text-gray-500 max-w-2xl mx-auto">Translation apps and vegan directories cannot protect you from 'structural risks' in Korean dining culture.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="leaf" class="w-6 h-6 text-red-500"></i>
+                    </div>
+                    <h3 id="card1-title" class="font-bold text-xl mb-3 text-gray-900">Vegan ≠ Safe</h3>
+                    <p id="card1-desc" class="text-gray-600 leading-relaxed">
+                        Korean vegan food often uses <strong>soy, wheat, peanuts, and sesame</strong> for flavor. 'No Meat' does not mean 'Allergy-Free'.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="languages" class="w-6 h-6 text-red-500"></i>
+                    </div>
+                    <h3 id="card2-title" class="font-bold text-xl mb-3 text-gray-900">Lost in Context</h3>
+                    <p id="card2-desc" class="text-gray-600 leading-relaxed">
+                        Translators only swap words. "No shrimp" is often misunderstood as "Just remove shrimp from the soup", ignoring <strong>cross-contamination</strong>.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="chef-hat" class="w-6 h-6 text-red-500"></i>
+                    </div>
+                    <h3 id="card3-title" class="font-bold text-xl mb-3 text-gray-900">Hidden Ingredients</h3>
+                    <p id="card3-desc" class="text-gray-600 leading-relaxed">
+                        Busy staff may not know about <strong>hidden broth (anchovy/shrimp)</strong> or secret sauces. "I don't think so" often means "I don't know".
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature 1: AI Chatbot -->
+    <section id="ai-feature" class="py-24 bg-teal-50 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2 space-y-8 z-10">
+                <div class="inline-flex items-center gap-2 bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">
+                    <span class="w-2 h-2 bg-teal-500 rounded-full animate-pulse"></span>
+                    <span id="ai-badge">Free / For Everyone</span>
+                </div>
+                
+                <h2 id="ai-title" class="text-4xl font-bold text-gray-900 leading-tight">
+                    Your Local Friend<br>
+                    <span class="text-teal-600">On-demand AI Chat</span>
+                </h2>
+                
+                <p id="ai-desc" class="text-gray-600 text-lg leading-relaxed">
+                    Stop searching complicated blogs. Just ask like a friend.<br>
+                    Our AI uses verified data to find safe spots considering <strong>ingredients & cross-contamination</strong>.
+                </p>
+                
+                <ul class="space-y-4 pt-2 text-gray-700">
+                    <li class="flex items-start gap-3">
+                        <div class="bg-white p-1 rounded-full shadow-sm mt-0.5"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i></div>
+                        <span id="ai-list1">Filters complex allergies (e.g. Shellfish + Nuts)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="bg-white p-1 rounded-full shadow-sm mt-0.5"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i></div>
+                        <span id="ai-list2">Suggests safe nearby restaurants instantly</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="bg-white p-1 rounded-full shadow-sm mt-0.5"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i></div>
+                        <span id="ai-list3">Checks for separated cookware & broth</span>
+                    </li>
+                </ul>
+
+                <button onclick="window.open('https://forms.gle/YqehrgsMerPiNXoX6', '_blank')" id="ai-cta" class="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-lg w-full sm:w-auto">
+                    Start Chatting
+                </button>
+            </div>
+            
+            <!-- Chat UI Mockup -->
+            <div class="md:w-1/2 w-full relative">
+                <!-- Decor Elements -->
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-teal-200/50 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-indigo-200/50 rounded-full blur-3xl"></div>
+
+                <div class="bg-white rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden max-w-sm mx-auto relative z-10 transform rotate-1 hover:rotate-0 transition duration-500">
+                    <div class="bg-teal-600 p-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-xs">AI</div>
+                            <span class="text-white font-bold text-lg">K-Free AI</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                        </div>
+                    </div>
+                    <div class="p-5 space-y-5 bg-gray-50 h-96 overflow-y-auto text-sm scrollbar-hide">
+                        <!-- User Message -->
+                        <div class="flex justify-end animate-fade-in-up">
+                            <div class="bg-teal-600 text-white p-4 rounded-2xl rounded-tr-sm max-w-[85%] shadow-md leading-relaxed" id="chat-user">
+                                I have severe <strong>shrimp & peanut</strong> allergies. Find a safe place near Hongdae.
+                            </div>
+                        </div>
+                        <!-- AI Message 1 (Success) -->
+                        <div class="flex justify-start animate-fade-in-up" style="animation-delay: 0.2s">
+                            <div class="bg-white text-gray-800 border border-gray-200 p-4 rounded-2xl rounded-tl-sm max-w-[95%] shadow-md">
+                                <p class="mb-3 leading-relaxed" id="chat-ai-1">Found safe spots near Hongdae:</p>
+                                <div class="bg-teal-50 p-3 rounded-xl border border-teal-100 mb-2">
+                                    <strong class="text-teal-800 block mb-1" id="chat-rec-name">1. Han-guk Table (Recommended)</strong>
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-1.5 text-xs text-gray-600">
+                                            <i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i> <span id="chat-rec-1">No shrimp broth (Veggie base)</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 text-xs text-gray-600">
+                                            <i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i> <span id="chat-rec-2">Peanut-free kitchen zone</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- AI Message 2 (Unknown/Warning) -->
+                        <div class="flex justify-start animate-fade-in-up" style="animation-delay: 0.4s">
+                            <div class="bg-white text-gray-800 border border-gray-200 p-4 rounded-2xl rounded-tl-sm max-w-[95%] shadow-md">
+                                <div class="bg-gray-100 p-3 rounded-xl border border-gray-200 mb-1">
+                                    <strong class="text-gray-600 block mb-1" id="chat-unknown-name">2. Spicy Wok (Caution)</strong>
+                                    <div class="flex items-center gap-1.5 text-xs text-gray-500">
+                                        <i data-lucide="alert-triangle" class="w-3 h-3 text-orange-400"></i> <span id="chat-unknown-msg">Sauce ingredients not fully confirmed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-gray-100">
+                        <div class="h-12 bg-gray-100 rounded-full w-full flex items-center px-4 text-gray-400 text-sm">Type a message...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature 2: Premium Consulting -->
+    <section id="premium-feature" class="py-24 bg-white">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-16">
+            <div class="md:w-1/2 space-y-8">
+                <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">
+                    <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                    <span id="premium-badge">Paid / Severe Allergy</span>
+                </div>
+                
+                <h2 id="premium-title" class="text-4xl font-bold text-gray-900 leading-tight">
+                    Pre-visit Verification.<br>
+                    <span class="text-indigo-600">Premium Preparation</span>
+                </h2>
+                
+                <p id="premium-desc" class="text-gray-600 text-lg leading-relaxed">
+                    If you can't accept even 1% risk, let experts handle it.<br>
+                    We <strong>verify preparation practices</strong> when access is permitted.
+                </p>
+                
+                <div class="space-y-6 pt-4">
+                    <div class="flex gap-5">
+                        <div class="mt-1 bg-indigo-50 w-12 h-12 flex items-center justify-center rounded-xl shrink-0 text-indigo-600">
+                            <i data-lucide="video" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 id="prem-feat1-title" class="font-bold text-lg text-gray-900">Virtual Planning</h4>
+                            <p id="prem-feat1-desc" class="text-gray-600 mt-1">Video call to plan safe dining & routes perfectly.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="mt-1 bg-indigo-50 w-12 h-12 flex items-center justify-center rounded-xl shrink-0 text-indigo-600">
+                            <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 id="prem-feat2-title" class="font-bold text-lg text-gray-900">Verification</h4>
+                            <p id="prem-feat2-desc" class="text-gray-600 mt-1">We check preparation practices and ingredient safety.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="mt-1 bg-indigo-50 w-12 h-12 flex items-center justify-center rounded-xl shrink-0 text-indigo-600">
+                            <i data-lucide="chef-hat" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 id="prem-feat3-title" class="font-bold text-lg text-gray-900">Chef Training</h4>
+                            <p id="prem-feat3-desc" class="text-gray-600 mt-1">We personally deliver your allergy manual to the chef.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Checklist Visual -->
+            <div class="md:w-1/2 w-full bg-slate-50 rounded-[2rem] p-8 md:p-10 border border-slate-200 shadow-inner">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        </div>
+                        <span id="audit-header" class="font-bold text-slate-700">Audit Checklist</span>
+                    </div>
+                    <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">PASS</span>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-indigo-500 flex gap-4 items-start">
+                        <div class="bg-indigo-50 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="w-3 h-3 text-indigo-600"></i></div>
+                        <div>
+                            <p id="check1-q" class="font-bold text-gray-800 text-sm">Are chopping boards & knives separated?</p>
+                            <p id="check1-a" class="text-xs text-gray-500 mt-1">Confirmed: Red board for meat, Green for veggies.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-indigo-500 flex gap-4 items-start">
+                        <div class="bg-indigo-50 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="w-3 h-3 text-indigo-600"></i></div>
+                        <div>
+                            <p id="check2-q" class="font-bold text-gray-800 text-sm">Is hidden broth used in base sauces?</p>
+                            <p id="check2-a" class="text-xs text-gray-500 mt-1">Confirmed: Pure soy sauce used (No fish sauce).</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-indigo-500 flex gap-4 items-start">
+                        <div class="bg-indigo-50 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="w-3 h-3 text-indigo-600"></i></div>
+                        <div>
+                            <p id="check3-q" class="font-bold text-gray-800 text-sm">Is fryer oil shared with allergens?</p>
+                            <p id="check3-a" class="text-xs text-gray-500 mt-1">Confirmed: Dedicated fryer for fries only.</p>
+                        </div>
+                    </div>
+                </div>
+                <p id="audit-note" class="text-center text-xs text-slate-400 mt-8">* Actual checklist used by K-Free consultants</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 id="pricing-title" class="text-3xl font-bold text-gray-900">Choose Your Safety Level</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <!-- Free Plan -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200 flex flex-col hover:border-teal-200 transition">
+                    <h3 id="plan-free-name" class="text-xl font-bold text-gray-900">Explorer (Free)</h3>
+                    <p id="plan-free-desc" class="text-sm text-gray-500 mb-6 mt-1">For mild allergies & independent travelers</p>
+                    <div class="text-4xl font-bold text-teal-600 mb-8">₩0</div>
+                    <ul class="space-y-4 mb-8 flex-1 text-sm text-gray-600">
+                        <li class="flex gap-3"><i data-lucide="check" class="text-teal-500 w-5 h-5 shrink-0"></i> <span id="plan-free-1">Unlimited AI Chat</span></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-teal-500 w-5 h-5 shrink-0"></i> <span id="plan-free-2">Restaurants with confirmed allergy details</span></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-teal-500 w-5 h-5 shrink-0"></i> <span id="plan-free-3">Basic Digital Chef Card</span></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-teal-500 w-5 h-5 shrink-0"></i> <span id="plan-free-4">'Unknown' Risk Labels</span></li>
+                    </ul>
+                    <button id="plan-free-btn" onclick="window.open('https://forms.gle/YqehrgsMerPiNXoX6', '_blank')" class="w-full py-4 border-2 border-teal-600 text-teal-600 font-bold rounded-xl hover:bg-teal-50 transition">
+                        Start with AI
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="bg-white p-8 rounded-3xl shadow-xl border-2 border-indigo-500 flex flex-col relative overflow-hidden transform md:-translate-y-4">
+                    <div class="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl">
+                        RECOMMENDED
+                    </div>
+                    <h3 id="plan-prem-name" class="text-xl font-bold text-gray-900">Guardian (Premium)</h3>
+                    <p id="plan-prem-desc" class="text-sm text-gray-500 mb-6 mt-1">For severe allergies & families</p>
+                    <div class="text-4xl font-bold text-indigo-600 mb-8">Custom <span class="text-sm font-normal text-gray-400">/ Trip</span></div>
+                    <ul class="space-y-4 mb-8 flex-1 text-sm text-gray-600">
+                        <li class="flex gap-3"><i data-lucide="check" class="text-indigo-500 w-5 h-5 shrink-0"></i> <strong id="plan-prem-1">Pre-visit verification (when possible)</strong></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-indigo-500 w-5 h-5 shrink-0"></i> <span id="plan-prem-2">1:1 Video Planning Session</span></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-indigo-500 w-5 h-5 shrink-0"></i> <span id="plan-prem-3">Physical Kit (Card + Bracelet)</span></li>
+                        <li class="flex gap-3"><i data-lucide="check" class="text-indigo-500 w-5 h-5 shrink-0"></i> <span id="plan-prem-4">Emergency Manual (119 Guide)</span></li>
+                    </ul>
+                    <button id="plan-prem-btn" onclick="window.open('https://forms.gle/YqehrgsMerPiNXoX6', '_blank')" class="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition shadow-md">
+                        Inquire Consulting
+                    </button>
+                    <!-- Target Audience -->
+                    <p id="prem-target" class="text-xs text-center text-gray-400 mt-4">
+                        Chosen by families, business travelers, and anaphylaxis-risk users
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Survey / Waitlist -->
+    <section id="waitlist" class="py-24 bg-white">
+        <div class="max-w-2xl mx-auto px-4">
+            <div class="bg-gradient-to-br from-teal-50 to-white rounded-[2.5rem] p-8 sm:p-14 border border-teal-100 shadow-sm">
+                <div class="text-center mb-10">
+                    <h2 id="form-title" class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">How Safe Do You Want To Be?</h2>
+                    <p id="form-desc" class="text-gray-600">Join the waitlist and get your <strong>Free 'Safety Starter Kit'</strong>.</p>
+                </div>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label id="q1-label" class="block text-sm font-bold text-gray-700 mb-3">1. Allergens to Avoid (Multi-select)</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200 cursor-pointer hover:border-teal-500 transition">
+                                <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"> 
+                                <span id="q1-opt1" class="text-sm font-medium">Shellfish</span>
+                            </label>
+                            <label class="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200 cursor-pointer hover:border-teal-500 transition">
+                                <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"> 
+                                <span id="q1-opt2" class="text-sm font-medium">Nuts / Peanuts</span>
+                            </label>
+                            <label class="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200 cursor-pointer hover:border-teal-500 transition">
+                                <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"> 
+                                <span id="q1-opt3" class="text-sm font-medium">Dairy/Egg/Wheat</span>
+                            </label>
+                            <label class="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200 cursor-pointer hover:border-teal-500 transition">
+                                <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"> 
+                                <span id="q1-opt4" class="text-sm font-medium">Others</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label id="q2-label" class="block text-sm font-bold text-gray-700 mb-3">2. Most Wanted Feature?</label>
+                        <select class="w-full p-4 rounded-xl border border-gray-300 bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-700">
+                            <option id="q2-opt1">AI Restaurant Finder (Free)</option>
+                            <option id="q2-opt2">Premium Consulting (Audit)</option>
+                            <option id="q2-opt3">Medical Bracelet & Card</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label id="email-label" class="block text-sm font-bold text-gray-700 mb-3">Email Address</label>
+                        <input type="email" placeholder="name@example.com" class="w-full p-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition">
+                    </div>
+
+                    <div class="space-y-4">
+                        <button type="button" onclick="window.open('https://forms.gle/YqehrgsMerPiNXoX6', '_blank')" id="form-btn" class="w-full bg-teal-600 text-white font-bold py-5 rounded-xl hover:bg-teal-700 transition shadow-lg text-lg flex items-center justify-center gap-2">
+                            <span>Get Starter Kit & Join Waitlist</span>
+                            <i data-lucide="external-link" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    
+                    <p class="text-center text-xs text-gray-400 mt-4">We respect your privacy. No spam.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 tracking-tight">K-Free</h3>
+            <p id="footer-slogan" class="text-gray-500 mb-10">Eat Safely in Korea.</p>
+            
+            <div class="bg-gray-50 p-8 rounded-2xl text-left text-xs text-gray-500 space-y-3 border border-gray-200 max-w-2xl mx-auto">
+                <p id="disclaimer-title" class="font-bold text-gray-700 text-sm mb-2">⚠️ Disclaimer</p>
+                <p id="disclaimer-1">1. K-Free is not a medical institution and does not guarantee a 100% allergy-free environment.</p>
+                <p id="disclaimer-2">2. Information provided by AI and consultants is based on best-effort verification, but final responsibility for consumption lies with the user.</p>
+                <p id="disclaimer-3">3. Users with anaphylaxis risk must always carry epinephrine and call 119 immediately in emergencies.</p>
+            </div>
+            
+            <p class="mt-10 text-xs text-gray-400">&copy; 2026 K-Free. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Language Data
+        const i18n = {
+            en: {
+                subtitle: "Food Allergy Safety Guide",
+                headerBtn: "Join Waitlist",
+                badge: "Supported: Shellfish · Nuts · Milk/Egg/Wheat/Soy",
+                heroTitle: "Dining in Korea shouldn't feel like<br><span class='text-teal-400'>Russian Roulette.</span>",
+                heroDesc: "Hidden shellfish broth in red sauce, nuts in side dishes...<br class='hidden sm:block'>K-Free is your <strong>Safety Layer</strong> with AI & Expert Verification.",
+                heroDisclaimer: "K-Free does not guarantee allergy-free environments — we help you make better-informed choices.",
+                btnAi: "<i data-lucide='message-circle' class='w-5 h-5'></i> Try AI Chat (Free)",
+                btnPrem: "<i data-lucide='crown' class='w-5 h-5'></i> Expert Consulting",
+                trust1: "Verified Info", trust2: "Clear Risks", trust3: "Emergency Plan",
+                
+                realityTitle: "Why Usual Apps Fail in Korea?",
+                realityDesc: "Translation apps and vegan directories cannot protect you from 'structural risks' in Korean dining culture.",
+                card1Title: "Vegan ≠ Safe",
+                card1Desc: "Korean vegan food often uses <strong>soy, wheat, peanuts, and sesame</strong> for flavor. 'No Meat' does not mean 'Allergy-Free'.",
+                card2Title: "Lost in Context",
+                card2Desc: "Translators only swap words. \"No shrimp\" is often misunderstood as \"Just remove shrimp from the soup\", ignoring <strong>cross-contamination</strong>.",
+                card3Title: "Hidden Ingredients",
+                card3Desc: "Busy staff may not know about <strong>hidden broth (anchovy/shrimp)</strong> or secret sauces. \"I don't think so\" often means \"I don't know\".",
+                
+                aiBadge: "Free / For Everyone",
+                aiTitle: "Your Local Friend<br><span class='text-teal-600'>On-demand AI Chat</span>",
+                aiDesc: "Stop searching complicated blogs. Just ask like a friend.<br>Our AI uses verified data to find safe spots considering <strong>ingredients & cross-contamination</strong>.",
+                aiList1: "Filters complex allergies (e.g. Shellfish + Nuts)",
+                aiList2: "Suggests safe nearby restaurants instantly",
+                aiList3: "Checks for separated cookware & broth",
+                aiCta: "Start Chatting",
+                
+                chatUser: "I have severe <strong>shrimp & peanut</strong> allergies. Find a safe place near Hongdae.",
+                chatAi: "Found safe spots near Hongdae:",
+                chatRec: "1. Han-guk Table (Recommended)",
+                chatRec1: "No shrimp broth (Veggie base)",
+                chatRec2: "Peanut-free kitchen zone",
+                chatUnknownName: "2. Spicy Wok (Caution)",
+                chatUnknownMsg: "Sauce ingredients not fully confirmed",
+
+                premBadge: "Paid / Severe Allergy",
+                premTitle: "Pre-visit Verification.<br><span class='text-indigo-600'>Premium Preparation</span>",
+                premDesc: "If you can't accept even 1% risk, let experts handle it.<br>We <strong>verify preparation practices</strong> when access is permitted.",
+                prem1Title: "Virtual Planning", prem1Desc: "Video call to plan safe dining & routes perfectly.",
+                prem2Title: "Verification", prem2Desc: "We check preparation practices and ingredient safety.",
+                prem3Title: "Chef Training", prem3Desc: "We personally deliver your allergy manual to the chef.",
+                
+                auditHeader: "Audit Checklist",
+                check1Q: "Are chopping boards & knives separated?", check1A: "Confirmed: Red board for meat, Green for veggies.",
+                check2Q: "Is hidden broth used in base sauces?", check2A: "Confirmed: Pure soy sauce used (No fish sauce).",
+                check3Q: "Is fryer oil shared with allergens?", check3A: "Confirmed: Dedicated fryer for fries only.",
+                auditNote: "* Actual checklist used by K-Free consultants",
+
+                pricingTitle: "Choose Your Safety Level",
+                freeName: "Explorer (Free)", freeDesc: "For mild allergies & independent travelers",
+                free1: "Unlimited AI Chat", free2: "Restaurants with confirmed allergy details", free3: "Basic Digital Chef Card", free4: "'Unknown' Risk Labels",
+                freeBtn: "Start with AI",
+                premName: "Guardian (Premium)", premDesc: "For severe allergies & families",
+                prem1: "Pre-visit verification (when possible)", prem2: "1:1 Video Planning Session", prem3: "Physical Kit (Card + Bracelet)", prem4: "Emergency Manual (119 Guide)",
+                premBtn: "Inquire Consulting",
+                premTarget: "Chosen by families, business travelers, and anaphylaxis-risk users",
+
+                formTitle: "How Safe Do You Want To Be?",
+                formDesc: "Join the waitlist and get your <strong>Free 'Safety Starter Kit'</strong>.",
+                q1Label: "1. Allergens to Avoid (Multi-select)",
+                q1Opt1: "Shellfish", q1Opt2: "Nuts / Peanuts", q1Opt3: "Dairy/Egg/Wheat", q1Opt4: "Others",
+                q2Label: "2. Most Wanted Feature?",
+                q2Opt1: "AI Restaurant Finder (Free)", q2Opt2: "Premium Consulting (Audit)", q2Opt3: "Medical Bracelet & Card",
+                emailLabel: "Email Address",
+                formBtn: "Get Starter Kit & Join Waitlist",
+
+                disclaimerTitle: "⚠️ Disclaimer",
+                disclaimer1: "1. K-Free is not a medical institution and does not guarantee a 100% allergy-free environment.",
+                disclaimer2: "2. Information provided by AI and consultants is based on best-effort verification, but final responsibility for consumption lies with the user.",
+                disclaimer3: "3. Users with anaphylaxis risk must always carry epinephrine and call 119 immediately in emergencies."
+            },
+            jp: {
+                subtitle: "韓国旅行・食物アレルギー安全ガイド",
+                headerBtn: "待機リストに登録",
+                badge: "対応：甲殻類 · ナッツ類 · 乳/卵/小麦/大豆",
+                heroTitle: "韓国での食事は、<br><span class='text-teal-400'>ロシアンルーレット</span>であってはなりません。",
+                heroDesc: "赤いスープに隠れた甲殻類エキス、おかずのナッツ…<br class='hidden sm:block'>K-Freeは、AIと専門家の検証によるあなたのための<strong>安全地帯（セーフティレイヤー）</strong>です。",
+                heroDisclaimer: "K-Freeはアレルギーフリー環境を保証するものではありません。より良い選択をするための情報を提供します。",
+                btnAi: "<i data-lucide='message-circle' class='w-5 h-5'></i> AIチャットを試す (無料)",
+                btnPrem: "<i data-lucide='crown' class='w-5 h-5'></i> 専門家コンサルティング",
+                trust1: "検証済み情報", trust2: "リスクの明示", trust3: "緊急対応プラン",
+                
+                realityTitle: "なぜ普通のアプリでは不十分なのか？",
+                realityDesc: "翻訳アプリやビーガン情報は、韓国の食文化に潜む「構造的なリスク」からあなたを守れません。",
+                card1Title: "ビーガン ≠ アレルギー対応",
+                card1Desc: "韓国のビーガン料理は肉を使わない代わりに、風味付けに<strong>大豆、小麦、ピーナッツ、ごま</strong>を多用します。「肉なし」は「アレルギーフリー」ではありません。",
+                card2Title: "文脈の喪失",
+                card2Desc: "翻訳機は言葉だけを変換します。「エビ抜きで」は「スープから具だけを取り除く」と誤解されがちで、<strong>交差汚染</strong>のリスクは無視されます。",
+                card3Title: "隠れた原材料",
+                card3Desc: "忙しい店員は、ソースに含まれる<strong>隠れた出汁（イワシ/エビ）</strong>まで把握していないことがあります。「入っていません」は「よく分かりません」という意味かもしれません。",
+                
+                aiBadge: "無料 / すべての旅行者へ",
+                aiTitle: "あなたの専属ガイド<br><span class='text-teal-600'>オンデマンドAIチャット</span>",
+                aiDesc: "複雑な検索はもう不要です。友達に聞くように尋ねてください。<br>検証済みデータを使用し、<strong>原材料と交差汚染</strong>を考慮して安全なお店を探します。",
+                aiList1: "複雑なアレルギー条件で検索（例：甲殻類＋ナッツ）",
+                aiList2: "現在地周辺の安全なレストランを即座に提案",
+                aiList3: "調理器具や出汁の使い分けを確認済み",
+                aiCta: "チャットを始める",
+
+                chatUser: "私は重度の<strong>エビとピーナッツ</strong>アレルギーがあります。弘大（ホンデ）近くで安全なお店を探して。",
+                chatAi: "弘大近くで条件に合うお店が見つかりました：",
+                chatRec: "1. 韓国テーブル (おすすめ)",
+                chatRec1: "エビ出汁不使用（野菜出汁を使用）",
+                chatRec2: "ピーナッツと調理スペースの分離を確認済み",
+                chatUnknownName: "2. スパイシー・ウォック (注意)",
+                chatUnknownMsg: "ソースの成分が完全に確認できていません",
+
+                premBadge: "有料 / 重度アレルギー・家族旅行",
+                premTitle: "訪問前確認サービス<br><span class='text-indigo-600'>プレミアム準備</span>",
+                premDesc: "1%のリスクも許容できないなら、専門家にお任せください。<br>許可された範囲で<strong>調理プロセスを検証</strong>します。",
+                prem1Title: "バーチャル計画", prem1Desc: "ビデオ通話で食事・宿泊・動線を完璧に設計。",
+                prem2Title: "検証 (Verification)", prem2Desc: "調理手順と食材の安全性をチェックします。",
+                prem3Title: "シェフ教育", prem3Desc: "担当シェフにあなたのアレルギーマニュアルを直接手渡し、説明します。",
+
+                auditHeader: "監査チェックリスト",
+                check1Q: "まな板と包丁は使い分けているか？", check1A: "確認済み：肉用（赤）と野菜用（緑）を分離。",
+                check2Q: "ベースソースに隠れた出汁は入っていないか？", check2A: "確認済み：純粋な醤油を使用（魚醤なし）。",
+                check3Q: "揚げ油はアレルゲンと共有していないか？", check3A: "確認済み：ポテト専用のフライヤーを使用。",
+                auditNote: "* K-Freeコンサルタントが実際に使用するチェックリスト例",
+
+                pricingTitle: "安全レベルを選択してください",
+                freeName: "Explorer (無料)", freeDesc: "軽度アレルギー・個人旅行者向け",
+                free1: "AIチャット無制限利用", free2: "アレルギー情報確認済みレストラン", free3: "基本デジタルシェフカード", free4: "「情報なし(Unknown)」のリスク表示",
+                freeBtn: "AIで始める",
+                premName: "Guardian (プレミアム)", premDesc: "重度アレルギー・家族旅行向け",
+                prem1: "訪問前確認（可能な場合）", prem2: "1:1 ビデオ旅行計画セッション", prem3: "実物キット（カード＋医療ブレスレット）", prem4: "緊急対応マニュアル (119ガイド)",
+                premBtn: "コンサルティングを依頼",
+                premTarget: "ご家族、ビジネス、アナフィラキシーリスクのある方に選ばれています",
+
+                formTitle: "どのくらいの安心が必要ですか？",
+                formDesc: "簡単なアンケートに答えて、待機リストに登録し<strong>無料の「安全スターターキット」</strong>を受け取りましょう。",
+                q1Label: "1. 避けるべきアレルゲン（複数選択）",
+                q1Opt1: "甲殻類", q1Opt2: "ナッツ / ピーナッツ", q1Opt3: "乳製品/卵/小麦/大豆", q1Opt4: "その他",
+                q2Label: "2. 最も魅力を感じる機能は？",
+                q2Opt1: "AI レストラン検索 (無料)", q2Opt2: "プレミアム現場監査・コンサル", q2Opt3: "医療ブレスレット & カード",
+                emailLabel: "メールアドレス",
+                formBtn: "アンケートに答えて登録する",
+
+                disclaimerTitle: "⚠️ 免責事項",
+                disclaimer1: "1. K-Freeは医療機関ではなく、100%のアレルギーフリー環境を保証するものではありません。",
+                disclaimer2: "2. AIおよびコンサルタントの情報は最善の努力に基づいて提供されますが、最終的な喫食の判断と責任は利用者にあります。",
+                disclaimer3: "3. アナフィラキシーのリスクがある方は、常にエピペン等の処方薬を携帯し、緊急時は直ちに119番通報してください。"
+            },
+            cn: {
+                subtitle: "韩国食品过敏安全指南",
+                headerBtn: "加入候补名单",
+                badge: "支持：甲壳类 · 坚果 · 牛奶/鸡蛋/小麦/大豆",
+                heroTitle: "在韩国用餐，<br>不应是一场<span class='text-teal-400'>俄罗斯轮盘赌。</span>",
+                heroDesc: "红色调料中隐藏的甲壳类高汤，小菜里的坚果……<br class='hidden sm:block'>K-Free 利用 AI 和专家验证，为您构建<strong>安全防护层</strong>。",
+                heroDisclaimer: "K-Free 不保证无过敏原环境——我们旨在帮您做出更明智的选择。",
+                btnAi: "<i data-lucide='message-circle' class='w-5 h-5'></i> 体验 AI 聊天 (免费)",
+                btnPrem: "<i data-lucide='crown' class='w-5 h-5'></i> 专家咨询服务",
+                trust1: "验证信息", trust2: "风险明示", trust3: "应急预案",
+                
+                realityTitle: "为什么普通 APP 在韩国行不通？",
+                realityDesc: "翻译软件和素食指南无法保护您免受韩国饮食文化中“结构性风险”的侵害。",
+                card1Title: "素食 ≠ 安全",
+                card1Desc: "韩国素食虽然不含肉，但为了提味常大量使用<strong>大豆、小麦、花生和芝麻</strong>。“无肉”并不代表“无过敏原”。",
+                card2Title: "语境缺失",
+                card2Desc: "翻译机只能转换单词。“不吃虾”常被误解为“只把虾从汤里捞出来”，从而忽略了<strong>交叉污染</strong>的风险。",
+                card3Title: "隐形除成分",
+                card3Desc: "忙碌的服务员可能不清楚酱料中<strong>隐藏的高汤（鳀鱼/虾）</strong>。“没有”往往意味着“我不知道”。",
+                
+                aiBadge: "免费 / 面向大众",
+                aiTitle: "您的本地朋友<br><span class='text-teal-600'>按需 AI 聊天</span>",
+                aiDesc: "无需搜索复杂的攻略。像问朋友一样提问即可。<br>我们的 AI 利用验证数据，综合考虑<strong>成分和交叉污染</strong>，为您寻找安全餐厅。",
+                aiList1: "筛选复杂过敏条件（如：甲壳类 + 坚果）",
+                aiList2: "即时推荐附近的放心餐厅",
+                aiList3: "已确认炊具分离和高汤成分",
+                aiCta: "开始聊天",
+
+                chatUser: "我有严重的<strong>虾和花生</strong>过敏。帮我在弘大附近找个安全的地方。",
+                chatAi: "在弘大附近为您找到了安全餐厅：",
+                chatRec: "1. 韩国餐桌 (推荐)",
+                chatRec1: "不使用虾高汤（使用蔬菜高汤）",
+                chatRec2: "已确认花生与烹饪区完全分离",
+                chatUnknownName: "2. 辣味炒锅 (注意)",
+                chatUnknownMsg: "酱料成分尚未完全确认",
+
+                premBadge: "付费 / 重度过敏・家庭游",
+                premTitle: "访问前验证<br><span class='text-indigo-600'>高级准备服务</span>",
+                premDesc: "如果您不能容忍 1% 的风险，请交给专家。<br>我们在允许的情况下<strong>验证制备流程</strong>。",
+                prem1Title: "虚拟行程规划", prem1Desc: "通过视频会议完美规划用餐、住宿和路线。",
+                prem2Title: "验证 (Verification)", prem2Desc: "我们检查制备流程和食材安全性。",
+                prem3Title: "主厨培训", prem3Desc: "亲自将您的过敏手册传达给主厨并进行说明。",
+
+                auditHeader: "审计检查表",
+                check1Q: "砧板和刀具是否分开使用？", check1A: "已确认：肉类用（红）与蔬菜用（绿）分开。",
+                check2Q: "基础酱料中是否含有隐形高汤？", check2A: "已确认：使用纯酱油（无鱼露）。",
+                check3Q: "油炸用油是否与过敏原共用？", check3A: "已确认：薯条使用专用油炸锅。",
+                auditNote: "* K-Free 顾问实际使用的检查表范例",
+
+                pricingTitle: "选择您的安全等级",
+                freeName: "Explorer (免费)", freeDesc: "轻度过敏 · 自由行游客",
+                free1: "无限次使用 AI 聊天", free2: "已确认过敏详细信息的餐厅", free3: "基础电子主厨卡", free4: "“未知(Unknown)”风险提示",
+                freeBtn: "使用 AI",
+                premName: "Guardian (高级)", premDesc: "重度过敏 · 家庭及商务客",
+                prem1: "访问前验证（如可能）", prem2: "1对1 视频行程规划", prem3: "实物套件（卡片 + 医疗手环）", prem4: "应急手册 (119 指南)",
+                premBtn: "咨询服务",
+                premTarget: "家庭、商务旅客和有过敏性休克风险用户的首选",
+
+                formTitle: "您需要多大程度的安全？",
+                formDesc: "加入候补名单，领取<strong>免费“安全入门套件”</strong>。",
+                q1Label: "1. 需要避免的过敏原（多选）",
+                q1Opt1: "甲壳类", q1Opt2: "坚果 / 花生", q1Opt3: "牛奶/鸡蛋/小麦/大豆", q1Opt4: "其他",
+                q2Label: "2. 最想要的功能是？",
+                q2Opt1: "AI 餐厅查找 (免费)", q2Opt2: "高级现场审计咨询", q2Opt3: "医疗手环 & 卡片",
+                emailLabel: "电子邮箱",
+                formBtn: "领取套件并加入",
+
+                disclaimerTitle: "⚠️ 免责声明",
+                disclaimer1: "1. K-Free 不是医疗机构，不保证 100% 的无过敏原环境。",
+                disclaimer2: "2. AI 和顾问提供的信息基于尽力验证，但最终食用决定权和责任在于用户。",
+                disclaimer3: "3. 有过敏性休克风险的用户必须随身携带肾上腺素笔，并在紧急情况下立即拨打 119。",
+            }
+        };
+
+        function setText(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        function setHTML(id, html) {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = html;
+        }
+
+        function changeLang(lang) {
+            const data = i18n[lang];
+            
+            // Update Text Content
+            setText('header-subtitle', data.subtitle);
+            setText('header-cta', data.headerBtn);
+            setText('hero-badge', data.badge);
+            setHTML('hero-title', data.heroTitle);
+            setHTML('hero-desc', data.heroDesc);
+            setText('hero-disclaimer', data.heroDisclaimer);
+            setHTML('hero-btn-ai', data.btnAi);
+            setHTML('hero-btn-premium', data.btnPrem);
+            setText('trust-1', data.trust1);
+            setText('trust-2', data.trust2);
+            setText('trust-3', data.trust3);
+
+            setText('reality-title', data.realityTitle);
+            setText('reality-desc', data.realityDesc);
+            setText('card1-title', data.card1Title);
+            setHTML('card1-desc', data.card1Desc);
+            setText('card2-title', data.card2Title);
+            setHTML('card2-desc', data.card2Desc);
+            setText('card3-title', data.card3Title);
+            setHTML('card3-desc', data.card3Desc);
+
+            setText('ai-badge', data.aiBadge);
+            setHTML('ai-title', data.aiTitle);
+            setHTML('ai-desc', data.aiDesc);
+            setText('ai-list1', data.aiList1);
+            setText('ai-list2', data.aiList2);
+            setText('ai-list3', data.aiList3);
+            setText('ai-cta', data.aiCta);
+            
+            setHTML('chat-user', data.chatUser);
+            setText('chat-ai-1', data.chatAi);
+            setText('chat-rec-name', data.chatRec);
+            
+            setHTML('chat-rec-1', `<i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i> ` + data.chatRec1);
+            setHTML('chat-rec-2', `<i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i> ` + data.chatRec2);
+            
+            // New Unknown Chat Item
+            setText('chat-unknown-name', data.chatUnknownName);
+            setText('chat-unknown-msg', data.chatUnknownMsg);
+
+            setText('premium-badge', data.premBadge);
+            setHTML('premium-title', data.premTitle);
+            setHTML('premium-desc', data.premDesc);
+            setText('prem-feat1-title', data.prem1Title);
+            setText('prem-feat1-desc', data.prem1Desc);
+            setText('prem-feat2-title', data.prem2Title);
+            setText('prem-feat2-desc', data.prem2Desc);
+            setText('prem-feat3-title', data.prem3Title);
+            setText('prem-feat3-desc', data.prem3Desc);
+
+            setText('audit-header', data.auditHeader);
+            setText('check1-q', data.check1Q);
+            setText('check1-a', data.check1A);
+            setText('check2-q', data.check2Q);
+            setText('check2-a', data.check2A);
+            setText('check3-q', data.check3Q);
+            setText('check3-a', data.check3A);
+            setText('audit-note', data.auditNote);
+
+            setText('pricing-title', data.pricingTitle);
+            setText('plan-free-name', data.freeName);
+            setText('plan-free-desc', data.freeDesc);
+            setText('plan-free-1', data.free1);
+            setText('plan-free-2', data.free2);
+            setText('plan-free-3', data.free3);
+            setText('plan-free-4', data.free4);
+            setText('plan-free-btn', data.freeBtn);
+            setText('plan-prem-name', data.premName);
+            setText('plan-prem-desc', data.premDesc);
+            setHTML('plan-prem-1', data.prem1); 
+            setText('plan-prem-2', data.prem2);
+            setText('plan-prem-3', data.prem3);
+            setText('plan-prem-4', data.prem4);
+            setText('plan-prem-btn', data.premBtn);
+            setText('prem-target', data.premTarget);
+
+            setText('form-title', data.formTitle);
+            setHTML('form-desc', data.formDesc);
+            setText('q1-label', data.q1Label);
+            setText('q1-opt1', data.q1Opt1);
+            setText('q1-opt2', data.q1Opt2);
+            setText('q1-opt3', data.q1Opt3);
+            setText('q1-opt4', data.q1Opt4);
+            setText('q2-label', data.q2Label);
+            setText('q2-opt1', data.q2Opt1);
+            setText('q2-opt2', data.q2Opt2);
+            setText('q2-opt3', data.q2Opt3);
+            setText('email-label', data.emailLabel);
+            setText('form-btn', data.formBtn); // Simplified form button text only
+
+            setText('footer-slogan', data.subtitle);
+            setText('disclaimer-title', data.disclaimerTitle);
+            setText('disclaimer-1', data.disclaimer1);
+            setText('disclaimer-2', data.disclaimer2);
+            setText('disclaimer-3', data.disclaimer3);
+
+            // Update Font & Active Button State
+            const body = document.body;
+            body.classList.remove('lang-jp', 'lang-cn');
+            if (lang === 'jp') body.classList.add('lang-jp');
+            if (lang === 'cn') body.classList.add('lang-cn');
+
+            // Button Styles
+            ['en', 'jp', 'cn'].forEach(l => {
+                const btn = document.getElementById(`btn-${l}`);
+                if (btn) {
+                    if (l === lang) {
+                        btn.classList.add('bg-white', 'text-teal-600', 'shadow-sm');
+                        btn.classList.remove('text-gray-500', 'hover:bg-gray-200');
+                    } else {
+                        btn.classList.remove('bg-white', 'text-teal-600', 'shadow-sm');
+                        btn.classList.add('text-gray-500', 'hover:bg-gray-200');
+                    }
+                }
+            });
+
+            // Re-initialize icons for new DOM elements
+            lucide.createIcons();
+        }
+
+        // Initialize with English
+        changeLang('en');
+    </script>
+</body>
+</html>
